@@ -1,0 +1,13 @@
+interface Node {
+  id: ID!
+}
+
+type Query {
+  node(id: ID!): Node
+  test: Test
+}
+
+type Test implements Node {
+  id: ID!
+  testOne: Int
+}
