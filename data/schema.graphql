@@ -1,13 +1,77 @@
+type Card implements Node {
+  id: ID!
+  hasBeenChecked: Boolean
+  value: String
+}
+
+type CardConnection {
+  pageInfo: PageInfo!
+  edges: [CardEdge]
+}
+
+type CardEdge {
+  node: Card
+  cursor: String!
+}
+
+input CheckCardForValueInput {
+  id: ID
+  clientMutationId: String!
+}
+
+type CheckCardForValuePayload {
+  card: Card
+  viewer: User
+  clientMutationId: String!
+}
+
+type Mutation {
+  checkCardForValue(input: CheckCardForValueInput!): CheckCardForValuePayload
+  userContinueMutation(input: UserContinueMutationInput!): UserContinueMutationPayload
+  userRetreatMutation(input: UserRetreatMutationInput!): UserRetreatMutationPayload
+}
+
 interface Node {
   id: ID!
 }
 
-type Query {
-  node(id: ID!): Node
-  test: Test
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
 }
 
-type Test implements Node {
+type Root {
+  node(id: ID!): Node
+  viewer: User
+}
+
+type User implements Node {
   id: ID!
-  testOne: Int
+  cards(before: String, after: String, first: Int, last: Int): CardConnection
+  continue: Boolean
+  retreat: Boolean
+  totalTreasure: Int
+}
+
+input UserContinueMutationInput {
+  id: ID
+  clientMutationId: String!
+}
+
+type UserContinueMutationPayload {
+  viewer: User
+  clientMutationId: String!
+}
+
+input UserRetreatMutationInput {
+  id: ID
+  treasure: Int
+  clientMutationId: String!
+}
+
+type UserRetreatMutationPayload {
+  viewer: User
+  clientMutationId: String!
 }

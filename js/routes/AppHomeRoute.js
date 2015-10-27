@@ -5,9 +5,9 @@ import Relay from 'react-relay';
 export default class extends Relay.Route {
   static path = '/';
   static queries = {
-    test: () => Relay.QL`
+    viewer: () => Relay.QL`
       query {
-        test
+        viewer
       }
     `,
   };

@@ -31,11 +31,15 @@ var compiler = webpack ({
   output: { filename: 'app.js', path: '/' }
 });
 
+
+// setup express server for our client
+
 var app = new WebpackDevServer(compiler, {
   contentBase: '/public',
   proxy: {'/graphql': `http://localhost:${GRAPHQL_PORT}`},
   publicPath: '/js/',
-  stats: { colors: true }
+  stats: { colors: true },
+  quiet: true,
 });
 
 // Serve static resources ( react components )
